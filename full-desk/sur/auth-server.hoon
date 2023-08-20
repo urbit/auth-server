@@ -1,0 +1,1 @@
+../../bare-desk/sur/auth-server.hoon

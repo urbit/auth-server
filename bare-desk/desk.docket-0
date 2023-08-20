@@ -1,0 +1,10 @@
+:~
+  title+'Auth Server'
+  info+'API for Auth'
+  color+0xd9.4c3a
+  version+[0 2 0]
+  website+'https://urbit.org/'
+  license+'MIT'
+  base+'auth-server'
+  site+/auth-server
+==
