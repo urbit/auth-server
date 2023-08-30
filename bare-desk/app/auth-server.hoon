@@ -370,8 +370,7 @@
       =/  =turf  (need (de-turf:html (~(got by query) 'turf')))
       =/  =octs
         %-  as-octs:mimes:html
-        %-  crip
-        %-  en-json:html
+        %-  en:json:html
         [%a (proof:enjs (make-proof our.bowl now.bowl turf)) ~]
       %^  give-http  rid
         :-  200
