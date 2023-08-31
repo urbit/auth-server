@@ -405,7 +405,7 @@
       =/  tell-wire=wire   /tell/[uuid]
       =/  tell-path=path   /results/(scot %p our.bowl)/[uuid]
       =/  timer-wire=wire  /timer/[uuid]
-      =/  =dock            [ship.req.act %auth]
+      =/  =dock            [ship.req.act %auth-client]
       :~  [%pass timer-wire %arvo %b %wait exp.req.act]
           [%pass tell-wire %agent dock %watch tell-path]
           [%pass ask-wire %agent dock %poke auth-server-ask+!>([id.act req.act])]
@@ -422,7 +422,7 @@
       ?.  &(?=(^ ent) ?=(?(%got %sent) res.u.ent))
         `state
       =/  tell-wire=wire  /tell/(id-to-uuid id.act)
-      =/  =dock  [ship.req.u.ent %auth]
+      =/  =dock  [ship.req.u.ent %auth-client]
       =/  paths=(list path)
         %-  make-paths
         :*  our.bowl  turf.req.u.ent  ship.req.u.ent
@@ -611,16 +611,16 @@
     =/  tell-wire=^wire  /tell/[uuid]
     ?~  ent
       :_  this
-      [%pass tell-wire %agent [src.bowl %auth] %leave ~]~
+      [%pass tell-wire %agent [src.bowl %auth-client] %leave ~]~
     ?.  ?=(?(%sent %got) res.u.ent)
       :_  this
-      [%pass tell-wire %agent [src.bowl %auth] %leave ~]~
+      [%pass tell-wire %agent [src.bowl %auth-client] %leave ~]~
     =/  timer-wire=^wire  /timer/[uuid]
     =/  paths=(list path)
       %-  make-paths
       [our.bowl turf.req.u.ent ship.req.u.ent id time.req.u.ent sup.bowl]
     :_  this(entries (~(put by entries) id u.ent(res %error)))
-    :*  [%pass tell-wire %agent [src.bowl %auth] %leave ~]
+    :*  [%pass tell-wire %agent [src.bowl %auth-client] %leave ~]
         [%give %fact paths %auth-server-did !>(`update`[%status id %error])]
         ?.  (lte exp.req.u.ent now.bowl)
           ~
@@ -656,7 +656,7 @@
         `this
       =/  =path  /results/(scot %p our.bowl)/[uuid]
       :_  this
-      [%pass wire %agent [src.bowl %auth] %watch path]~
+      [%pass wire %agent [src.bowl %auth-client] %watch path]~
     ::
         [%fact *]
       =/  [=mark =vase]  cage.sign
@@ -666,10 +666,10 @@
       =/  ent=(unit entry)  (~(get by entries) id)
       ?~  ent
         :_  this
-        [%pass wire %agent [src.bowl %auth] %leave ~]~
+        [%pass wire %agent [src.bowl %auth-client] %leave ~]~
       ?.  ?=(?(%got %sent) res.u.ent)
         :_  this
-        [%pass wire %agent [src.bowl %auth] %leave ~]~
+        [%pass wire %agent [src.bowl %auth-client] %leave ~]~
       ?:  |(=(res res.u.ent) ?=(%sent res))
         `this
       =/  timer-wire=^wire  /timer/[uuid]
@@ -680,7 +680,7 @@
       :-  [%give %fact paths %auth-server-did !>(`update`[%status id res])]
       ?:  ?=(%got res)
         ~
-      :~  [%pass wire %agent [src.bowl %auth] %leave ~]
+      :~  [%pass wire %agent [src.bowl %auth-client] %leave ~]
           [%pass timer-wire %arvo %b %rest exp.req.u.ent]
       ==
     ==
@@ -705,7 +705,7 @@
   =/  paths=(list path)
     %-  make-paths
     [our.bowl turf.req.u.ent ship.req.u.ent id time.req.u.ent sup.bowl]
-  =/  =dock  [ship.req.u.ent %auth]
+  =/  =dock  [ship.req.u.ent %auth-client]
   ?:  |(?=(~ error.sign) (lte exp.req.u.ent now.bowl))
     :_  this(entries (~(put by entries) id u.ent(res %expire)))
     :~  [%give %fact paths %auth-server-did !>(`update`[%status id %expire])]
